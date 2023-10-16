@@ -16,6 +16,7 @@ public class Game {
     private int y = 10;
     private Screen screen;
     private Hero hero;
+    private Position position;
 
 
     public Game() {
@@ -24,22 +25,20 @@ public class Game {
                     DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
                     Terminal terminal = terminalFactory.createTerminal();
                     Screen screen = new TerminalScreen(terminal);
-
                     screen.setCursorPosition(null);
                     screen.startScreen();
                     screen.doResizeIfNecessary();
                     screen.clear();
                     screen.setCharacter(x,y,TextCharacter.fromCharacter('X')[0]);
                     screen.refresh();
-
+                    hero = new Hero(10, 10);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                hero = new Hero(10, 10);
             }
 
 
-    private void draw() throws IOException{
+    private void draw() throws IOException {
         screen.clear();
         hero.draw(screen);
         screen.refresh();
@@ -61,14 +60,13 @@ public class Game {
         }
     }
     private void processKey(KeyStroke key) {
-        System.out.println(key);
         switch (key.getKeyType()) {
-            case ArrowUp -> hero.moveUp();
-            case ArrowDown -> hero.moveDown();
-            case ArrowLeft -> hero.moveLeft();
-            case ArrowRight -> hero.moveRight();
+            case ArrowUp    -> moveHero(hero.moveUp());
+            case ArrowDown  -> moveHero(hero.moveDown());
+            case ArrowLeft  -> moveHero(hero.moveLeft());
+            case ArrowRight -> moveHero(hero.moveRight());
         }
-
+        System.out.println(key);
     }
     }
 
