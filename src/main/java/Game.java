@@ -41,7 +41,6 @@ public class Game {
 
     private void draw() throws IOException{
         screen.clear();
-
         hero.draw(screen);
         screen.refresh();
     }
