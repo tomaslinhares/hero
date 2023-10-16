@@ -7,12 +7,17 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+
+
 import java.io.IOException;
 
 public class Game {
     private int x = 10;
     private int y = 10;
     private Screen screen;
+    private Hero hero;
+
+
     public Game() {
                 try {
                     TerminalSize terminalSize = new TerminalSize(40, 20);
@@ -26,15 +31,19 @@ public class Game {
                     screen.clear();
                     screen.setCharacter(x,y,TextCharacter.fromCharacter('X')[0]);
                     screen.refresh();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                hero = new Hero(10, 10);
             }
 
 
     private void draw() throws IOException{
+        screen.clear();
 
+        hero.draw(screen);
+        screen.refresh();
     }
 
     public void run(){
@@ -55,10 +64,10 @@ public class Game {
     private void processKey(KeyStroke key) {
         System.out.println(key);
         switch (key.getKeyType()) {
-            case ArrowUp -> y = y + 1;
-            case ArrowDown -> y = y - 1;
-            case ArrowLeft -> x = x - 1;
-            case ArrowRight -> x = x + 1;
+            case ArrowUp -> hero.moveUp();
+            case ArrowDown -> hero.moveDown();
+            case ArrowLeft -> hero.moveLeft();
+            case ArrowRight -> hero.moveRight();
         }
 
     }
